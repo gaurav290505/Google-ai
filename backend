@@ -1,0 +1,20 @@
+from flask import Flask, jsonify
+import random
+
+app = Flask(__name__)
+
+# Sample products data
+products = [
+    {"id": 1, "name": "Product 1"},
+    {"id": 2, "name": "Product 2"},
+    {"id": 3, "name": "Product 3"},
+]
+
+@app.route('/api/recommendations', methods=['GET'])
+def get_recommendations():
+    # Simple recommendation logic (random selection)
+    recommendations = random.sample(products, k=2)  # Get 2 random products
+    return jsonify(recommendations)
+
+if __name__ == '__main__':
+    app.run(debug=True)
