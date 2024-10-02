@@ -1,0 +1,23 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+
+# Sample product descriptions
+descriptions = [
+    "Fresh organic fruits",
+    "Healthy snack options",
+    "Delicious dairy products"
+]
+
+# Create TF-IDF vectorizer and fit the product descriptions
+tfidf = TfidfVectorizer()
+tfidf_matrix = tfidf.fit_transform(descriptions)
+
+# Calculate cosine similarity
+cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+
+def recommend_product(product_id):
+    idx = product_id - 1  # Assuming product IDs start from 1
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    recommended_ids = [i[0] + 1 for i in sim_scores[1:3]]  # Top 2 recommendations
+    return recommended_ids
